@@ -1,0 +1,129 @@
+{% extends "layout.html" %}
+
+<!DOCTYPE html>
+
+{% block main %}
+
+    <style>
+    body {
+        background-image: url('https://www.vsb.bc.ca/schools/sir-charles-tupper/About-Us/Photos/PublishingImages/Clubs%20Day%202013.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+    </style>
+    <section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
+        <div class="container clear">
+    	    <div class="jumbotron jumbotron-fluid text-center jumbotron" style="background-color: #F38D27;">
+                <h1>FAQs</h1>
+            </div>
+            <h4>Clubs are a new concept for many new students.</h4>
+            <h4>Here are some frequently asked questions.</h4>
+            <h4 class='mb-4'>If you have any further questions, feel free to contact us!</h4>
+
+        	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        		<div class="panel panel-default">
+        		  <div class="panel-heading p-3 mb-3" role="tab" id="heading0">
+        			<h3 class="panel-title">
+        			  <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse0" aria-expanded="true" aria-controls="collapse0">
+        				How do I start a club?
+        			  </a>
+        			</h3>
+        		  </div>
+        		  <div id="collapse0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
+        			<div class="panel-body px-3 mb-4">
+        			  <p>To start a club, all you need is a sponsor teacher and a club idea! After you get your sponsor teacher, let student council know that your club is running!</p>
+        			</div>
+        		  </div>
+        		</div>
+
+        		<div class="panel panel-default">
+        		  <div class="panel-heading p-3 mb-3" role="tab" id="heading1">
+        			<h3 class="panel-title">
+        			  <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true" aria-controls="collapse1">
+        				Am I allowed to start a club anytime during the year?
+        			  </a>
+        			</h3>
+        		  </div>
+        		  <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1">
+        			<div class="panel-body px-3 mb-4">
+        			  <p>Yes! Just follow the instructions in starting a club!</p>
+        			</div>
+        		  </div>
+        		</div>
+
+        		<div class="panel panel-default">
+        		  <div class="panel-heading p-3 mb-3" role="tab" id="heading2">
+        			<h3 class="panel-title">
+        			  <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="true" aria-controls="collapse2">
+        				Can clubs get support from student council for future events?
+        			  </a>
+        			</h3>
+        		  </div>
+        		  <div id="collapse2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading2">
+        			<div class="panel-body px-3 mb-4">
+        			  <p>Yes! Just make sure to let the president and the vice president know.</p>
+        			</div>
+        		  </div>
+        		</div>
+
+        		<div class="panel panel-default">
+        		  <div class="panel-heading p-3 mb-3" role="tab" id="heading3">
+        			<h3 class="panel-title">
+        			  <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="true" aria-controls="collapse3">
+        				How do I register/join a club?
+        			  </a>
+        			</h3>
+        		  </div>
+        		  <div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading3">
+        			<div class="panel-body px-3 mb-4">
+        			  <p>You can sign up using this website, or you can sign up for clubs in person during club's day!</p>
+        			</div>
+        		  </div>
+        		</div>
+
+        	  <div class="panel panel-default">
+        		  <div class="panel-heading p-3 mb-3" role="tab" id="heading4">
+        			<h3 class="panel-title">
+        			  <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="true" aria-controls="collapse4">
+        				Can I join a club anytime during the year?
+        			  </a>
+        			</h3>
+        		  </div>
+        		      <div id="collapse4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4">
+            			<div class="panel-body px-3 mb-4">
+            			  <p>Yes! Just contact the club president or the club sponsor teacher to join!</p>
+            			</div>
+        		      </div>
+        	   </div>
+      </div>
+</section>
+
+    <script>
+        const idNames = ['nav-login', 'nav-home', 'nav-settings', 'nav-clubs', 'nav-register', 'nav-contact', 'nav-faq'];
+        const newId = 'nav-faq';
+        const newIdElement = document.getElementById(newId);
+
+        for (let i = idNames.length - 1; i >= 0; i--) {
+            let temp = document.getElementById(idNames[i]);
+            if (temp === null) {
+                idNames.splice(idNames.indexOf(idNames[i]), 1);
+            }
+        }
+
+        idNames.forEach((id) => {
+            let temp = document.getElementById(id);
+            if (id === newId) {
+                temp.classList.add('active');
+            } else {
+                temp.classList.remove('active');
+                temp.classList.remove('sr-only');
+            }
+        });
+
+        const newSpan = document.createElement('span');
+        newSpan.classList.add('sr-only');
+        newSpan.textContent = '(Current)';
+        newIdElement.appendChild(newSpan);
+    </script>
+{% endblock %}

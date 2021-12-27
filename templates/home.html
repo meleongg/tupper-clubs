@@ -1,0 +1,240 @@
+{% extends "layout.html" %}
+
+<!DOCTYPE html>
+
+{% block main %}
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body onload="myFunction()" style="margin:0;">
+<div id="loader"></div>
+    <div class='container mt-3'>
+        <div class='section'>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Club Name</th>
+                        <th>Club President</th>
+                        <th>Club Days</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ club.name }}</td>
+                        <td>{{ club.prez }}</td>
+                        <td>{{ club.days }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class='section'>
+            <table>
+                <thead>
+                    <tr>
+                        <div class='text-wrap text-center text-break mx-5' >
+                            <b>
+                                <textbox>Club Members</textbox>
+                            </b>
+                        </div>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <div class = 'cool' style='background-color: rgb(253, 193, 133, 0.3);'>
+                            <div class='text-wrap text-center text-break mx-5'>
+                                {{ club.members }}
+                            </div>
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+        <div class='section'>
+            <table>
+                <thead>
+                    <tr>
+                        <div class='text-wrap text-center text-break mx-5' >
+                            <b>
+                                <textbox>Club Description</textbox>
+                            </b>
+                        </div>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <div class = 'cool' style='background-color: rgb(253, 193, 133, 0.3);'>
+                            <div class='text-wrap text-center text-break mx-5'>
+                                {{ club.desc }}
+                            </div>
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        {% if photo %}
+            <h3><b>Uploaded photo: </b></h3>
+            <img class='img-fluid my-2' src="{{ url_for('upload', filename=photo) }}" style="width: 512px">
+            <form class='mb-3' action='/', method='POST'>
+                <input type="hidden" name="removeClub" value="removeClub">
+                <button type="submit" class="btn btn-primary">Remove Club Photo</button>
+            </form>
+        {% else %}
+            <h3>You have not uploaded a photo for this club.</h3>
+        {% endif %}
+
+        <div class="section">
+            <div class='section2'>
+                <h2 class='my-4 mx-auto' style='width: 70%;'>Only submit this form if you wish to edit your club's information!</h2>
+            <!-- TODO: Create a form for users to submit a name, a month, and a day -->
+            </div>
+            <form action="/" method ="post" enctype="multipart/form-data">
+                <div class='form-group'>
+                    <label for='clubName' class='mt-3'>Club Name</label>
+                    <input class='form-control w-50 mx-auto' autocomplete='off' name ="clubName" placeholder = "Club Name" type="text" required>
+                </div>
+                <div class='form-group'>
+                    <label for='presidentName'>President Name</label>
+                    <input class='form-control w-50 mx-auto' autocomplete='off' name ="presidentName" placeholder = "President Name" type="text" required>
+                </div>
+
+                <div class='form-group'>
+                    <h4>What days of the week will your club be meeting?</h4>
+                    {% for day in days %}
+                        <div class='form-check'>
+                            <input class='form-check-input' id='{{ day }}' autocomplete='off' name = '{{ day }}' placeholder = '{{ day }}' type="checkbox">
+                            <label class='form-check-label' for = '{{ day }}'>{{ day }}</label>
+                            <input id='{{ day }}Time'class='form-times form-control w-50 mx-auto my-2' autocomplete='off' name='{{ day }}Time' placeholder = 'Meeting Time e.g. 11AM-12PM' type='text' style='display: none; width: 40%;'>
+                        </div>
+                        <!-- if checkbox is checked, add input for possible times, 1 input time for beginning, 1 for end-->
+                    {% endfor %}
+                    <small id='timesSmall' class="form-text text-muted" style='display: none;'>
+                        Please enter a meeting time for each meeting day if known.
+                    </small>
+                </div>
+                <div class='form-group'>
+                    <h4>Insert a photo of your club in action! (Optional)</h4>
+                    <label for="img">Select image:</label>
+                    <!--can add multiple argument-->
+                    <input class='form-group-file' type="file" id="img" name="img" accept="image/*">
+                    <small class="form-text text-muted">
+                        Maximum 1MB photo size
+                    </small>
+                </div>
+                <div class='section2 form-group'>
+                    <label for='clubDesc'>Please enter a short description of the club. Feel free to include club objectives, projects, and accomplishments.</label>
+                    <textarea autocomplete='off' name='clubDesc' maxlength='100' rows='5' cols='100' class="center" placeholder='Enter text here!' required></textarea>
+                    <small class="form-text text-muted">
+                        Maximum 100 characters
+                    </small>
+                </div>
+                <div class='form-group'>
+                    <input class='px-5 py-4' type ="submit" value = "Edit Information" style='font-size: 1.9rem;'>
+                </div>
+            </form>
+            <div class='mt-4'>
+                <div class='text-wrap w-75 mx-auto'>
+                    <h4 class='mb-3'>This button will remove your club from the clubs list!</h4>
+                </div>
+                <button type="button" class="btn btn-primary px-2 py-1" data-toggle="modal" data-target="#removeModal" style='font-size: 1.2rem;'>
+                    Remove Club
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Are you sure you want to continue?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    You will have to fill in the form again to create a new club!
+                </div>
+                    <div class="modal-footer">
+                        <form action='/removeClub'>
+                            <button type="submit" class="btn btn-primary">Yes</button>
+                        </form>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const checkboxes = document.querySelectorAll('.form-check-input');
+            const times = document.querySelectorAll('.form-times');
+            const small = document.querySelector('#timesSmall');
+
+            showTime = (target) => {
+                targetId = target.id + 'Time';
+                small.style.display = 'block';
+                times.forEach( (time) => {
+                    if (time.id == targetId) {
+                        time.style.display = 'block';
+                        time.classList.add('d-inline');
+                    }
+                });
+            };
+
+            clearTime = (target) => {
+                targetId = target.id + 'Time';
+                times.forEach( (time) => {
+                    if (time.id == targetId) {
+                        time.style.display = 'none';
+                        time.classList.remove('d-inline');
+                    }
+                });
+            };
+
+            checkboxes.forEach( (checkbox) => {
+                checkbox.addEventListener('change', (e) => {
+                    if (e.target.id !== 'TBD') {
+                        if (e.target.checked) {
+                            showTime(e.target);
+                        } else {
+                            clearTime(e.target);
+                        }
+                    }
+                });
+            });
+
+        const idNames = ['nav-login', 'nav-home', 'nav-settings', 'nav-clubs', 'nav-register', 'nav-contact', 'nav-faq'];
+        const newId = 'nav-home';
+        const newIdElement = document.getElementById(newId);
+
+        for (let i = idNames.length - 1; i >= 0; i--) {
+            let temp = document.getElementById(idNames[i]);
+            if (temp === null) {
+                idNames.splice(idNames.indexOf(idNames[i]), 1);
+            }
+        }
+
+        idNames.forEach((id) => {
+            let temp = document.getElementById(id);
+            if (id === newId) {
+                temp.classList.add('active');
+            } else {
+                temp.classList.remove('active');
+                temp.classList.remove('sr-only');
+            }
+        });
+
+        const newSpan = document.createElement('span');
+        newSpan.classList.add('sr-only');
+        newSpan.textContent = '(Current)';
+        newIdElement.appendChild(newSpan);
+
+    </script>
+{% endblock %}

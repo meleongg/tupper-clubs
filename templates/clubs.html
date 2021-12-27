@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+<!DOCTYPE html>
+
+{% block main %}
+    <style>
+    body {
+        background-image: url('https://www.vsb.bc.ca/repository/SBPictureLibrary/16218b68-9c65-4171-a48d-93c477dfe654_JoinaClub.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+
+    }
+    </style>
+    <div class="container clear mt-3">
+        <h1>All Clubs</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>President</th>
+                    <th>Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- TODO: Loop through the database entries to display them in this table -->
+                {% for club in clubs %}
+                    <tr>
+                        <td> {{ club.name }}</td>
+                        <td> {{ club.president }}</td>
+                        <td><a href="/clubs/{{club.name}}">Go to {{ club.name }}!</a></td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const idNames = ['nav-login', 'nav-home', 'nav-settings', 'nav-clubs', 'nav-register', 'nav-contact', 'nav-faq'];
+        const newId = 'nav-clubs';
+        const newIdElement = document.getElementById(newId);
+
+        for (let i = idNames.length - 1; i >= 0; i--) {
+            let temp = document.getElementById(idNames[i]);
+            if (temp === null) {
+                idNames.splice(idNames.indexOf(idNames[i]), 1);
+            }
+        }
+
+        idNames.forEach((id) => {
+            let temp = document.getElementById(id);
+            if (id === newId) {
+                temp.classList.add('active');
+            } else {
+                temp.classList.remove('active');
+                temp.classList.remove('sr-only');
+            }
+        });
+
+        const newSpan = document.createElement('span');
+        newSpan.classList.add('sr-only');
+        newSpan.textContent = '(Current)';
+        newIdElement.appendChild(newSpan);
+    </script>
+{% endblock %}

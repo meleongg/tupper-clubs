@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+<!DOCTYPE html>
+
+{% block main %}
+<style>
+    body {
+        background-image: url('https://cutewallpaper.org/21/sad-faces-wallpaper/Sad-face-Wallpapers-Free-by-ZEDGEtm.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+    <div class='container'>
+        <div class="jumbotron jumbotron-fluid text-center jumbotron mt-3" style="background-color: #F38D27;">
+            <h1 class='mb-5 mx-4'>{{ error }}</h1>
+            <a href="/" style='font-size: 1.2rem;'>Try again</a>
+        </div>
+    </div>
+{% endblock %}
+

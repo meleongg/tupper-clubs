@@ -1,0 +1,171 @@
+{% extends "layout.html" %}
+
+<!DOCTYPE html>
+
+{% block main %}
+    <div class="clear container mt-3">
+        <style>
+            body {
+                background-image: url('https://wikiclipart.com/wp-content/uploads/2016/10/Add-yearbook-clipart-images-to-spice-up-your-pages-fusion-yearbooks.png');
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-size: cover;
+            }
+        </style>
+        {% if days %}
+            <div class='section2'>
+                <h1 class='my-3'>Register Your Club!</h1>
+            </div>
+            <!-- TODO: Create a form for users to submit a name, a month, and a day -->
+            <form action="/" method ="post" enctype="multipart/form-data">
+                <div class='form-group'>
+                    <label for='clubName' class='mt-3'>Club Name</label>
+                    <input class='form-control w-50 mx-auto' autocomplete='off' name ="clubName" placeholder = "Club Name" type="text" required>
+                </div>
+                <div class='form-group'>
+                    <label for='presidentName'>President Name</label>
+                    <input class='form-control w-50 mx-auto' autocomplete='off' name ="presidentName" placeholder = "President Name" type="text" required>
+                </div>
+                <div class='form-group'>
+                    <h4 class='my-3'>What days of the week will your club be meeting?</h4>
+                    {% for day in days %}
+                        <div class='form-check'>
+                            <input class='form-check-input' id='{{ day }}' autocomplete='off' name = '{{ day }}' placeholder = '{{ day }}' type="checkbox">
+                            <label class='form-check-label' for = '{{ day }}'>{{ day }}</label>
+                            <input id='{{ day }}Time'class='form-times form-control mx-auto my-2' autocomplete='off' name='{{ day }}Time' placeholder = 'Meeting Time e.g. 11AM-12PM' type='text' style='display: none; width: 40%;'>
+                        </div>
+                        <!-- if checkbox is checked, add input for possible times, 1 input time for beginning, 1 for end-->
+                    {% endfor %}
+                    <small id='timesSmall' class="form-text text-muted" style='display: none;'>
+                        Please enter a meeting time for each meeting day if known.
+                    </small>
+                </div>
+                <div class='form-group'>
+                    <h4>Insert a photo of your club in action! (Optional)</h4>
+                    <label for="img">Select image:</label>
+                    <!--can add multiple argument-->
+                    <input class='form-group-file' type="file" id="img" name="img" accept="image/*">
+                    <small class="form-text text-muted">
+                        Maximum 1MB photo size
+                    </small>
+                </div>
+                <div class='section2 form-group'>
+                    <label for='clubDesc'>Please enter a short description of the club. Feel free to include club objectives, projects, and accomplishments.</label>
+                    <textarea autocomplete='off' name='clubDesc' maxlength='100' rows='5' cols='100' class="center" placeholder='Enter text here!' required></textarea>
+                    <small class="form-text text-muted">
+                        Maximum 100 characters
+                    </small>
+                </div>
+                <div class='form-group'>
+                    <input class='px-5 py-4' type ="submit" value = "Add Club" style='font-size: 1.9rem;'>
+                </div>
+            </form>
+        {% else %}
+            <div class='container'>
+                <div class='section2'>
+                    <h1 class='mt-3'>Hi {{ name }},</h1>
+                </div>
+                    <h3 class='my-3'>Please enjoy your stay with the Tupper Clubs website!</h3>
+                    <h3>Go register for some <a href='/clubs'>clubs</a>!</h3>
+            </div>
+        {% endif %}
+
+        {% if clubs %}
+            <div class='container'>
+                <div class='section2'>
+                    <h1>Your registered Clubs</h1>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Club Name</th>
+                            <th>Meeting Days</th>
+                            <th>Club Link</th>
+                            <!--<th>Club Contact?</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for club in clubs %}
+                        <tr>
+                            <td>{{ club.name }}</td>
+                            <td>{{ club.days }}</td>
+                            <td><a href="/clubs/{{club.name}}">Go to {{ club.name }}!</a></td>
+                            <!--<td>Temp</td>-->
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <small class="form-text text-muted">
+                    If you wish to leave a club, return to the club's page.
+                </small>
+            </div>
+        {% endif %}
+
+    </div>
+
+    <script>
+        const checkboxes = document.querySelectorAll('.form-check-input');
+        const times = document.querySelectorAll('.form-times');
+        const small = document.querySelector('#timesSmall');
+
+        showTime = (target) => {
+            targetId = target.id + 'Time';
+            small.style.display = 'block';
+            times.forEach( (time) => {
+                if (time.id == targetId) {
+                    time.style.display = 'block';
+                    time.classList.add('d-inline');
+                }
+            });
+        }
+
+        clearTime = (target) => {
+            targetId = target.id + 'Time';
+            times.forEach( (time) => {
+                if (time.id == targetId) {
+                    time.style.display = 'none';
+                    time.classList.remove('d-inline');
+                }
+            });
+        };
+
+        checkboxes.forEach( (checkbox) => {
+            checkbox.addEventListener('change', (e) => {
+                if (e.target.id !== 'TBD') {
+                    if (e.target.checked) {
+                        showTime(e.target);
+                    } else {
+                        clearTime(e.target);
+                    }
+                }
+            })
+        });
+
+
+        const idNames = ['nav-login', 'nav-home', 'nav-settings', 'nav-clubs', 'nav-register', 'nav-contact', 'nav-faq'];
+        const newId = 'nav-home';
+        const newIdElement = document.getElementById(newId);
+
+        for (let i = idNames.length - 1; i >= 0; i--) {
+            let temp = document.getElementById(idNames[i]);
+            if (temp === null) {
+                idNames.splice(idNames.indexOf(idNames[i]), 1);
+            }
+        }
+
+        idNames.forEach((id) => {
+            let temp = document.getElementById(id);
+            if (id === newId) {
+                temp.classList.add('active');
+            } else {
+                temp.classList.remove('active');
+                temp.classList.remove('sr-only');
+            }
+        });
+
+        const newSpan = document.createElement('span');
+        newSpan.classList.add('sr-only');
+        newSpan.textContent = '(Current)';
+        newIdElement.appendChild(newSpan);
+    </script>
+{% endblock %}

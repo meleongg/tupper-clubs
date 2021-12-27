@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+<!DOCTYPE html>
+
+{% block main %}
+
+    <div class='container'>
+        <a class='mt-5' href="/clubs" style='font-size: 1.2rem;'>Back to all Clubs</a>
+        <div class="jumbotron jumbotron-fluid text-center jumbotron mt-3" style="background-color: #F38D27;">
+            <h1>{{ details.name }}</h1>
+        </div>
+
+        {% if file %}
+            <img class='img-fluid my-2' src="{{ url_for('upload', filename=file) }}" style="width: 512px">
+        {% endif %}
+
+        <h2> <b>President:</b> {{ details.prez }}</h2>
+
+        <div class="jumbotron jumbotron-fluid text-center jumbotron" style="background-color: #F38D27;">
+        <h2> <b>About us:</b>
+            <div class='text-wrap text-center text-break mx-5'>
+                {{ details.desc }}
+            </div>
+        </h2>
+        </div>
+
+        <div class='mb-4'>
+            <h2><b>Our meeting days:</b></h2>
+            <h3>{{ details.days }}</h3>
+        </div>
+
+        {% if student %}
+            {% if not registered %}
+                <form action='/signUp/{{clubName}}' method='POST'>
+                    <div class='form-group'>
+                        <button class='px-5 py-4 mr-2' type='submit' style='font-size: 1.9rem;'>Sign Up</button>
+                    </div>
+                </form>
+            {% else %}
+                <form action='/leave/{{clubName}}' method='POST'>
+                    <div class='form-group'>
+                        <button class='px-5 py-4 mr-2' type='submit' style='font-size: 1.9rem;'>Leave Club</button>
+                    </div>
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <script>
+        const idNames = ['nav-login', 'nav-home', 'nav-settings', 'nav-clubs', 'nav-register', 'nav-contact', 'nav-faq'];
+        const newId = 'nav-clubs';
+        const newIdElement = document.getElementById(newId);
+
+        for (let i = idNames.length - 1; i >= 0; i--) {
+            let temp = document.getElementById(idNames[i]);
+            if (temp === null) {
+                idNames.splice(idNames.indexOf(idNames[i]), 1);
+            }
+        }
+
+        idNames.forEach((id) => {
+            let temp = document.getElementById(id);
+            if (id === newId) {
+                temp.classList.add('active');
+            } else {
+                temp.classList.remove('active');
+                temp.classList.remove('sr-only');
+            }
+        });
+
+        const newSpan = document.createElement('span');
+        newSpan.classList.add('sr-only');
+        newSpan.textContent = '(Current)';
+        newIdElement.appendChild(newSpan);
+    </script>
+{% endblock %}

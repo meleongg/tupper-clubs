@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+<!DOCTYPE html>
+
+{% block main %}
+    <style>
+        body {
+            background-image: url('https://blogs.vsb.bc.ca/heritage/files/2016/10/Scan107571.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+    </style>
+    <div class="clear container mt-3">
+        <div class="jumbotron jumbotron-fluid text-center jumbotron" style="background-color: #F38D27;">
+            <h1>Log In</h1>
+        </div>
+        {% if not club and not student %}
+            <h2 class='mb-4'>Choose an account!</h2>
+            <form action='/login' method='post'>
+                <div class='form-group'>
+                    <input class='px-5 py-4 mr-2' type='submit' name='club' value='Club' style='font-size: 1.9rem;'>
+                    <input class='px-5 py-4 ml-2' type='submit' name='student' value='Student' style='font-size: 1.9rem;'>
+                </div>
+            </form>
+        {% endif %}
+
+        {% if club %}
+            <a href='/login' style='font-size: 1.2rem;'>Back to login</a>
+            <form action="/login" method ="post">
+                <input type="hidden" name="accountType" value="club">
+                <input class="form-control w-50 mx-auto mt-3" autocomplete='off' name ="clubName" placeholder = "Club Name" type="text" required>
+                <input class="form-control w-50 mx-auto my-3" autocomplete='off' name ="password" placeholder = "Password" type="password" required>
+                <input type ="submit" value = "Log In">
+            </form>
+        {% endif %}
+
+        {% if student %}
+            <a href='/login' style='font-size: 1.2rem;'>Back to login</a>
+            <form action="/login" method ="post">
+                <input type="hidden" name="accountType" value="student">
+                <input class="form-control w-50 mx-auto mt-3" autocomplete='off' name ="studentNumber" placeholder = "Student Number" type="number" required>
+                <input class="form-control w-50 mx-auto my-3" autocomplete='off' name ="password" placeholder = "Password" type="password" required>
+                <input type ="submit" value = "Log In">
+            </form>
+        {% endif %}
+
+        <h3 class='mt-4'>New User? Register <a href='/register'>here</a>!</h3>
+    </div>
+
+    <script>
+        const idNames = ['nav-login', 'nav-home', 'nav-settings', 'nav-clubs', 'nav-register', 'nav-contact', 'nav-faq'];
+        const newId = 'nav-login';
+        const newIdElement = document.getElementById(newId);
+
+        for (let i = idNames.length - 1; i >= 0; i--) {
+            let temp = document.getElementById(idNames[i]);
+            if (temp === null) {
+                idNames.splice(idNames.indexOf(idNames[i]), 1);
+            }
+        }
+
+        idNames.forEach((id) => {
+            let temp = document.getElementById(id);
+            if (id === newId) {
+                temp.classList.add('active');
+            } else {
+                temp.classList.remove('active');
+                temp.classList.remove('sr-only');
+            }
+        });
+
+        const newSpan = document.createElement('span');
+        newSpan.classList.add('sr-only');
+        newSpan.textContent = '(Current)';
+        newIdElement.appendChild(newSpan);
+    </script>
+{% endblock %}

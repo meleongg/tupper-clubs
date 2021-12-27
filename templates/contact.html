@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+<!DOCTYPE html>
+
+{% block main %}
+
+    <style>
+        body {
+            background-image: url('https://blogs.vsb.bc.ca/heritage/files/2016/10/Scan107571.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+    </style>
+    <div class="clear container mt-3">
+    <div class="jumbotron jumbotron-fluid text-center jumbotron" style="background-color: #F38D27;">
+        <h1>Contact</h1>
+    </div>
+        <h4>Send a message for us if you have any inquiries relating to clubs!</h4>
+        <h4>Visit our school's website if you want to learn more about our school!</h4>
+        <a href="https://www.vsb.bc.ca/schools/sir-charles-tupper/pages/default.aspx" target="_blank" style='font-size: 1.5rem;'>Sir Charles Tupper Secondary Website</a>
+        <div class="section2 my-3">
+                <h5 class='text-wrap text-center text-break mx-auto'>School President: <a class='emails' href="mailto:eugenememe@gmail.com" target="_blank" rel="noopener noreferrer" style='width: 80%;'>eugenememe@gmail.com</a></h5>
+                <h5 class='text-wrap text-center text-break mx-auto'>School Vice President: <a class='emails' href="mailto:daiannememe@gmail.com" target="_blank" rel="noopener noreferrer" style='width: 80%;'>daiannememe@gmail.com</a></h5>
+                <h5 class='text-wrap text-center text-break mx-auto'>School Council Teacher Sponsor: <a class='emails' href="mailto:pattersonnotreal@gmail.com" target="_blank" rel="noopener noreferrer" style='width: 80%;'>pattersonnotreal@gmail.com</a></h5>
+        </div>
+        <h4>If there are any issues or concerns with our website let us know!</h4>
+        <div class="section2 mt-3">
+                <h5 class='text-wrap text-center text-break mx-auto'>Coding Developer: <a class='emails' href="mailto:melmeme@gmail.com" target="_blank" rel="noopener noreferrer" style='width: 80%;'>melmeme@gmail.com</a></h5>
+                <h5 class='text-wrap text-center text-break mx-auto'>Coding Developer: <a class='emails' href="mailto:eugenememe@gmail.com" target="_blank" rel="noopener noreferrer" style='width: 80%;'>eugenememe@gmail.com</a></h5>
+        </div>
+    </div>
+
+    <script>
+        const idNames = ['nav-login', 'nav-home', 'nav-settings', 'nav-clubs', 'nav-register', 'nav-contact', 'nav-faq'];
+        const newId = 'nav-contact';
+        const newIdElement = document.getElementById(newId);
+
+        for (let i = idNames.length - 1; i >= 0; i--) {
+            let temp = document.getElementById(idNames[i]);
+            if (temp === null) {
+                idNames.splice(idNames.indexOf(idNames[i]), 1);
+            }
+        }
+
+        idNames.forEach((id) => {
+            let temp = document.getElementById(id);
+            if (id === newId) {
+                temp.classList.add('active');
+            } else {
+                temp.classList.remove('active');
+                temp.classList.remove('sr-only');
+            }
+        });
+
+        const newSpan = document.createElement('span');
+        newSpan.classList.add('sr-only');
+        newSpan.textContent = '(Current)';
+        newIdElement.appendChild(newSpan);
+    </script>
+{% endblock %}

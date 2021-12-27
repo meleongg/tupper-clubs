@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+<!DOCTYPE html>
+
+{% block main %}
+    <style>
+        /*body {*/
+        /*    background-image: url('https://blogs.vsb.bc.ca/heritage/files/2016/10/Scan10518.jpg');*/
+        /*    background-repeat: no-repeat;*/
+        /*    background-attachment: fixed;*/
+        /*    background-size: cover;*/
+        /*}*/
+    </style>
+        <div class='row'>
+            <div class='col-lg-7'>
+                <img class='img-fluid' src='https://blogs.vsb.bc.ca/heritage/files/2016/10/Scan10518.jpg' alt='old tupper'>
+            </div>
+            <div class='col-lg-5'>
+                <img class='img-fluid' src='https://lh3.googleusercontent.com/XV51yPRAGxNR65_L1Ol_yZFJAIVeZkKCobRGJXGI2nFTy0TsmHgtPJVnkgZzBPAWj4yT5a9IQAnpTDRGHqAN' alt='tupper logo'>
+
+                <h4>Join a club or find members for your club today!</h4>
+
+                <h3>So many clubs!</h3>
+
+                <a href='/register'>Register</a>
+
+                <a href='/login'>Log in</a>
+            </div>
+        </div>
+
+
+    <script>
+        const idNames = ['nav-login', 'nav-home', 'nav-settings', 'nav-clubs', 'nav-register', 'nav-contact', 'nav-faq'];
+        const newId = 'nav-landing';
+        const newIdElement = document.getElementById(newId);
+
+        for (let i = idNames.length - 1; i >= 0; i--) {
+            let temp = document.getElementById(idNames[i]);
+            if (temp === null) {
+                idNames.splice(idNames.indexOf(idNames[i]), 1);
+            }
+        }
+
+        idNames.forEach((id) => {
+            let temp = document.getElementById(id);
+            if (id === newId) {
+                temp.classList.add('active');
+            } else {
+                temp.classList.remove('active');
+                temp.classList.remove('sr-only');
+            }
+        });
+
+        const newSpan = document.createElement('span');
+        newSpan.classList.add('sr-only');
+        newSpan.textContent = '(Current)';
+        newIdElement.appendChild(newSpan);
+    </script>
+{% endblock %}
