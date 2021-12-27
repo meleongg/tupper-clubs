@@ -29,7 +29,7 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['UPLOAD_EXTENSIONS'] = ['.png', '.jpg', '.gif']
 
 # Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///clubs.db")
+db = SQL(os.getenv("DATABASE_URL"))
 
 # holds the possible day options
 DAYS = ['Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays','TBD']
